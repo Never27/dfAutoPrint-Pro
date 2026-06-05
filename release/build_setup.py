@@ -8,7 +8,7 @@ RELEASE_DIR = r"C:\Users\Administrator\WorkBuddy\2026-06-05-09-13-35\PdfAutoPrin
 APP_DIR      = os.path.join(RELEASE_DIR, "app")
 GS_FILE      = os.path.join(RELEASE_DIR, "gs10040w64.exe")
 DOTNET_FILE  = os.path.join(RELEASE_DIR, "windowsdesktop-runtime-8.0.27-win-x64.exe")
-SETUP_BAT    = os.path.join(RELEASE_DIR, "PdfAutoPrint_Pro_Setup_v1.1.0.bat")
+SETUP_BAT    = os.path.join(RELEASE_DIR, "PdfAutoPrint_Pro_Setup_v1.1.1.bat")
 
 # 1. 创建 ZIP 包
 zip_path = os.path.join(RELEASE_DIR, "_setup_payload.zip")
@@ -56,7 +56,7 @@ title PdfAutoPrint Pro v1.1.0 安装向导
 
 echo.
 echo   ============================================
-echo     PdfAutoPrint Pro v1.1.0 - 完整安装包
+echo     PdfAutoPrint Pro v1.1.1 - 完整安装包
 echo     包含 .NET 8 Runtime + GhostScript + 虚拟打印机
 echo   ============================================
 echo.

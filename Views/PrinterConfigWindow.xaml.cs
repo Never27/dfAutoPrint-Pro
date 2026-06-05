@@ -9,12 +9,14 @@ public partial class PrinterConfigWindow : Window
 {
     private readonly PrinterProfile _profile;
     private readonly LogService _log;
+    private readonly Models.GlobalConfig? _globalConfig;
 
-    public PrinterConfigWindow(PrinterProfile profile, LogService log)
+    public PrinterConfigWindow(PrinterProfile profile, LogService log, Models.GlobalConfig? globalConfig = null)
     {
         InitializeComponent();
         _profile = profile;
         _log = log;
+        _globalConfig = globalConfig;
         LoadProfile();
         SetupEvents();
     }
@@ -91,6 +93,7 @@ public partial class PrinterConfigWindow : Window
         txtPrinterName.Text = _profile.PrinterName;
         txtGsPath.Text = _profile.Service.GhostScriptPath ?? "";
         chkSkipOnFailure.IsChecked = _profile.Service.SkipOnFailure;
+        chkAutoStart.IsChecked = _globalConfig?.AutoStart ?? false;
         chkEnabled.IsChecked = _profile.Enabled;
         // Log retention isn't per-printer, it's global - skip for now
     }
@@ -133,6 +136,17 @@ public partial class PrinterConfigWindow : Window
         _profile.Service.GhostScriptPath = string.IsNullOrWhiteSpace(txtGsPath.Text) ? null : txtGsPath.Text;
         _profile.Service.SkipOnFailure = chkSkipOnFailure.IsChecked ?? true;
         _profile.Enabled = chkEnabled.IsChecked ?? true;
+
+        // 开机自启（全局）
+        if (_globalConfig != null)
+        {
+            var newAutoStart = chkAutoStart.IsChecked ?? false;
+            if (_globalConfig.AutoStart != newAutoStart)
+            {
+                _globalConfig.AutoStart = newAutoStart;
+                StartupService.SetAutoStart(newAutoStart);
+            }
+        }
 
         // 更新端口名
         var safeName = _profile.PrinterName.Replace(" ", "_");

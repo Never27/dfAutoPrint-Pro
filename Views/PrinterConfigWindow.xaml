@@ -179,6 +179,8 @@
 
                     <CheckBox x:Name="chkSkipOnFailure" Style="{StaticResource FormCheck}" 
                               Content="操作失败时跳过（不中断其他任务）" Margin="0,12,0,0"/>
+                    <CheckBox x:Name="chkAutoStart" Style="{StaticResource FormCheck}" 
+                              Content="开机自启（启动 Windows 时自动运行）"/>
                     <CheckBox x:Name="chkEnabled" Style="{StaticResource FormCheck}" 
                               Content="启用此打印机（取消勾选则忽略该打印机）"/>
 

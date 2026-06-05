@@ -49,6 +49,7 @@ release/*.exe
 release/*.msi
 release/*.zip/
 release/*.cab/
+release/PdfAutoPrint_Pro_Setup_*.bat
 release/app/
 release/_setup_payload.zip
 gs_page.html

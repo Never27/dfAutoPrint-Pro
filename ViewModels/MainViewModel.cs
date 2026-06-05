@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using PdfAutoPrint.Pro.Models;
 using PdfAutoPrint.Pro.Services;
+using WinForms = System.Windows.Forms;
 
 namespace PdfAutoPrint.Pro.ViewModels;
 
@@ -152,6 +153,15 @@ public class MainViewModel : INotifyPropertyChanged
                 pvm.LastJob = $"{Path.GetFileName(record.OutputFile)}";
                 pvm.JobCount++;
                 pvm.Status = "正常";
+
+                // 气泡通知
+                if (pvm.Profile.Notification.NotifyOnSuccess && App.TrayIcon != null)
+                {
+                    App.TrayIcon.ShowBalloonTip(3000,
+                        $"PDF 转换完成 - {pvm.Name}",
+                        $"{Path.GetFileName(record.OutputFile)}\n大小: {record.FileSize / 1024f:F1} KB",
+                        WinForms.ToolTipIcon.Info);
+                }
             });
         };
 
@@ -161,6 +171,15 @@ public class MainViewModel : INotifyPropertyChanged
             {
                 RecentJobs.Insert(0, record);
                 pvm.Status = "失败";
+
+                // 气泡通知
+                if (pvm.Profile.Notification.NotifyOnFailure && App.TrayIcon != null)
+                {
+                    App.TrayIcon.ShowBalloonTip(5000,
+                        $"转换失败 - {pvm.Name}",
+                        record.ErrorMessage ?? "未知错误",
+                        WinForms.ToolTipIcon.Error);
+                }
             });
         };
 
@@ -257,7 +276,7 @@ public class MainViewModel : INotifyPropertyChanged
     {
         if (pvm == null) return;
 
-        var editor = new Views.PrinterConfigWindow(pvm.Profile, _logService)
+        var editor = new Views.PrinterConfigWindow(pvm.Profile, _logService, _configService.Config)
         {
             Owner = Application.Current.MainWindow
         };

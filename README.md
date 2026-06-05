@@ -5,12 +5,12 @@
 ![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet)
 ![WPF](https://img.shields.io/badge/UI-WPF-5C2D91?style=flat&logo=xaml)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Version](https://img.shields.io/badge/Version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-1.1.1-blue.svg)
 ![Windows](https://img.shields.io/badge/Platform-Windows%207%2B-0078D6?style=flat&logo=windows)
 
 ---
 
-## 功能亮点（v1.1.0）
+## 功能亮点（v1.1.1）
 
 - **自动/手动保存** — 一键切换自动保存或弹出路径选择对话框
 - **智能文件命名** — 支持 `<PrintJobName>`、`<DateTime:format>` 等占位符模板'
@@ -29,7 +29,7 @@
 
 ---
 
-## 新增功能（v1.1.0）
+## 新增功能（v1.1.1）
 
 ### 系统托盘最小化运行
 - 点击窗口「×」按钮时，应用最小化到系统托盘而非退出'
@@ -45,6 +45,11 @@
 - 任务成功：显示文件名和保存路径'
 - 任务失败：显示失败原因摘要'
 - 批量打印时自动合并通知，避免消息轰炸'
+
+### 应用图标（v1.1.1 ✅）
+- 新增紫色圆角方形应用图标（16~256px 多分辨率）
+- 托盘图标随应用图标统一风格
+- 同时用于 .exe 文件和桌面快捷方式
 
 ---
 
@@ -64,7 +69,7 @@
 
 ### 安装
 
-1. 下载 `PdfAutoPrint_Pro_Setup_v1.1.0.bat`（约 117 MB，含 .NET 8 + GhostScript）
+1. 下载 `PdfAutoPrint_Pro_Setup_v1.1.1.bat`（约 117 MB，含 .NET 8 + GhostScript）
 2. **右键** → **以管理员身份运行**，如弹出用户账户控制（UAC），点击「是」'
 3. 安装向导将自动依次执行：'
    - 检测 .NET 8 Desktop Runtime，缺失则自动安装'
@@ -175,7 +180,7 @@ PdfAutoPrint.Pro/
 ├── Converters/                # WPF 值转换器'
 ├── docs/                      # 项目文档'
 ├── release/                    # 发布目录'
-│   ├── PdfAutoPrint_Pro_Setup_v1.1.0.bat  # 完整安装包（117 MB，右键管理员运行）'
+│   ├── PdfAutoPrint_Pro_Setup_v1.1.1.bat  # 完整安装包（117 MB，右键管理员运行）'
 │   ├── gs10040w64.exe                         # GhostScript 安装包'
 │   └── windowsdesktop-runtime-8.0.27-win-x64.exe  # .NET 8 运行时'
 ├── install.ps1                # 一键安装脚本'
@@ -213,7 +218,7 @@ PdfAutoPrint.Pro/
 
 ## 下载
 
-- **完整安装包 v1.1.0**（含 .NET 8 + GhostScript）：`release/PdfAutoPrint_Pro_Setup_v1.1.0.bat`'
+- **完整安装包 v1.1.1**（含 .NET 8 + GhostScript）：`release/PdfAutoPrint_Pro_Setup_v1.1.1.bat`'
 - **GitHub 仓库**：https://github.com/Never27/dfAutoPrint-Pro'
 
 ---

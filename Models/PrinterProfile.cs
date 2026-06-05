@@ -187,4 +187,7 @@ public class GlobalConfig
 
     /// <summary>日志配置</summary>
     public LogConfig Log { get; set; } = new();
+
+    /// <summary>开机自启（全局）</summary>
+    public bool AutoStart { get; set; } = false;
 }
