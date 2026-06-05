@@ -64,8 +64,8 @@
 
 ### 安装
 
-1. 下载 `PdfAutoPrint_Pro_Setup_v1.1.0.exe`（约 117 MB，含 .NET 8 + GhostScript）
-2. 双击运行，如弹出用户账户控制（UAC），点击「是」'
+1. 下载 `PdfAutoPrint_Pro_Setup_v1.1.0.bat`（约 117 MB，含 .NET 8 + GhostScript）
+2. **右键** → **以管理员身份运行**，如弹出用户账户控制（UAC），点击「是」'
 3. 安装向导将自动依次执行：'
    - 检测 .NET 8 Desktop Runtime，缺失则自动安装'
    - 安装 GhostScript 10.04.0'
@@ -175,7 +175,7 @@ PdfAutoPrint.Pro/
 ├── Converters/                # WPF 值转换器'
 ├── docs/                      # 项目文档'
 ├── release/                    # 发布目录'
-│   ├── PdfAutoPrint_Pro_Setup_v1.1.0.exe  # 完整安装包（117 MB）'
+│   ├── PdfAutoPrint_Pro_Setup_v1.1.0.bat  # 完整安装包（117 MB，右键管理员运行）'
 │   ├── gs10040w64.exe                         # GhostScript 安装包'
 │   └── windowsdesktop-runtime-8.0.27-win-x64.exe  # .NET 8 运行时'
 ├── install.ps1                # 一键安装脚本'
@@ -213,7 +213,7 @@ PdfAutoPrint.Pro/
 
 ## 下载
 
-- **完整安装包 v1.1.0**（含 .NET 8 + GhostScript）：`release/PdfAutoPrint_Pro_Setup_v1.1.0.exe`'
+- **完整安装包 v1.1.0**（含 .NET 8 + GhostScript）：`release/PdfAutoPrint_Pro_Setup_v1.1.0.bat`'
 - **GitHub 仓库**：https://github.com/Never27/dfAutoPrint-Pro'
 
 ---
