@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using PdfAutoPrint.Pro.Models;
 
 namespace PdfAutoPrint.Pro.Services;
@@ -16,6 +17,7 @@ public class SpoolMonitor
     private readonly ConflictResolver _conflictResolver;
     private readonly LogService _log;
     private readonly JobHistoryService _history;
+    private readonly PrinterManager _printerManager;
 
     private FileSystemWatcher? _watcher;
     private CancellationTokenSource? _cts;
@@ -31,7 +33,8 @@ public class SpoolMonitor
         FileNameResolver nameResolver,
         ConflictResolver conflictResolver,
         LogService log,
-        JobHistoryService history)
+        JobHistoryService history,
+        PrinterManager printerManager)
     {
         _profile = profile;
         _gs = gs;
@@ -40,6 +43,7 @@ public class SpoolMonitor
         _conflictResolver = conflictResolver;
         _log = log;
         _history = history;
+        _printerManager = printerManager;
     }
 
     public async Task StartAsync(CancellationToken ct = default)
@@ -132,7 +136,12 @@ public class SpoolMonitor
 
             // 提取元数据
             var metadata = ExtractMetadata(psContent);
-            record.JobName = metadata.GetValueOrDefault("Title", Path.GetFileNameWithoutExtension(filePath));
+
+            // 从打印队列获取真实文档名（WMI），覆盖 PS DSC 中不可靠的 %%Title
+            await OverrideJobNameFromPrintQueueAsync(metadata, _profile.PrinterName);
+
+            record.JobName = metadata.GetValueOrDefault("PrintJobName",
+                metadata.GetValueOrDefault("Title", Path.GetFileNameWithoutExtension(filePath)));
 
             // 注入水印
             if (_profile.Watermark.Enabled)
@@ -265,6 +274,70 @@ public class SpoolMonitor
             meta["PrintJobAuthor"] = meta["Author"];
 
         return meta;
+    }
+
+    /// <summary>
+    /// 从 Windows 打印队列（WMI）获取真实文档名，覆盖 PS DSC 中不可靠的 %%Title
+    /// </summary>
+    private async Task OverrideJobNameFromPrintQueueAsync(
+        Dictionary<string, string> metadata, string printerName)
+    {
+        try
+        {
+            var jobs = await GetPrintQueueWithTimeoutAsync(printerName, 2500);
+            // 取最近提交的作业（最高 JobId）
+            var lastJob = jobs.OrderByDescending(j => j.JobId).FirstOrDefault();
+            if (lastJob != null)
+            {
+                var docName = CleanDocumentName(lastJob.Document);
+                if (!string.IsNullOrWhiteSpace(docName) && !IsGenericPsName(docName))
+                {
+                    metadata["PrintJobName"] = docName;
+                    metadata["Title"] = docName;
+                }
+            }
+        }
+        catch (Exception)
+        {
+            // WMI 查询失败时静默回退到 PS DSC 元数据
+        }
+    }
+
+    private async Task<List<PrintJobInfo>> GetPrintQueueWithTimeoutAsync(
+        string printerName, int timeoutMs)
+    {
+        var task = _printerManager.GetPrintQueueAsync(printerName);
+        var timeout = Task.Delay(timeoutMs);
+        var completed = await Task.WhenAny(task, timeout);
+        if (completed == timeout) return new List<PrintJobInfo>();
+        return await task;
+    }
+
+    /// <summary>
+    /// 从原始文档名字符串中提取干净的文件名
+    /// Win32_PrintJob.Document 可能返回完整路径或带扩展名的文件名
+    /// </summary>
+    private static string CleanDocumentName(string rawName)
+    {
+        if (string.IsNullOrWhiteSpace(rawName)) return "";
+
+        // 去除完整路径，只保留文件名
+        if (rawName.Contains('\\') || rawName.Contains('/'))
+            rawName = Path.GetFileNameWithoutExtension(rawName);
+        else if (rawName.Contains('.') && !rawName.StartsWith("."))
+            rawName = Path.GetFileNameWithoutExtension(rawName);
+
+        return rawName.Trim();
+    }
+
+    /// <summary>
+    /// 判断是否为 XPS-to-PS 转换器生成的通用占位名
+    /// </summary>
+    private static bool IsGenericPsName(string name)
+    {
+        return name.StartsWith("MSxpsPS", StringComparison.OrdinalIgnoreCase) ||
+               name.StartsWith("LocalDownlevel", StringComparison.OrdinalIgnoreCase) ||
+               name.StartsWith("RemoteDownlevel", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool TryExtractDsc(string line, string prefix, out string value)

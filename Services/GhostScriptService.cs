@@ -77,7 +77,10 @@ public class GhostScriptService
             "-dQUIET",
             "-dBATCH",
             "-dSAFER",
-            "-sDEVICE=pdfwrite"
+            "-sDEVICE=pdfwrite",
+            // 防止内容裁切：缩放适配页面 / 禁止自动旋转
+            "-dPDFFitPage",
+            "-dAutoRotatePages=/None"
         };
 
         quality ??= new QualityConfig();

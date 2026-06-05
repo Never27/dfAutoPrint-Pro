@@ -5,6 +5,7 @@
         xmlns:cv="clr-namespace:PdfAutoPrint.Pro.Converters"
         Title="PdfAutoPrint Pro" Height="700" Width="960"
         MinHeight="500" MinWidth="800"
+        Icon="pack://application:,,,/Assets/app.ico"
         Background="{StaticResource BgBrush}"
         WindowStartupLocation="CenterScreen">
 
@@ -43,30 +44,8 @@
         </Border>
 
         <!-- TabControl -->
-        <TabControl Grid.Row="1" BorderThickness="0" Background="Transparent" Padding="0">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="FontSize" Value="13"/>
-                    <Setter Property="Padding" Value="16,10"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Border Padding="{TemplateBinding Padding}" Cursor="Hand"
-                                        BorderBrush="Transparent" BorderThickness="0,0,0,3"
-                                        Background="Transparent">
-                                    <ContentPresenter Content="{TemplateBinding Header}"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="BorderBrush" 
-                                                Value="{StaticResource PrimaryBrush}"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
+        <TabControl Grid.Row="1" BorderThickness="0" Background="Transparent" Padding="0"
+                    ItemContainerStyle="{StaticResource AppTabItem}">
 
             <!-- Tab 1: 仪表盘 -->
             <TabItem Header="仪表盘">
@@ -87,8 +66,11 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <!-- 状态指示 -->
-                                            <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center"
-                                                     Fill="{Binding Status, Converter={StaticResource StatusToColor}}"/>
+                                            <Ellipse Grid.Column="0" Width="14" Height="14" VerticalAlignment="Center"
+                                                     Fill="{Binding Status, Converter={StaticResource StatusToColor}}"
+                                                     Stroke="{Binding Status, Converter={StaticResource StatusToColor}}"
+                                                     StrokeThickness="0"
+                                                     RenderOptions.EdgeMode="Aliased"/>
                                             <!-- 信息 -->
                                             <StackPanel Grid.Column="1" Margin="12,0">
                                                 <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="500"/>
@@ -109,6 +91,14 @@
                                             </StackPanel>
                                             <!-- 操作 -->
                                             <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Button Content="启动" Style="{StaticResource SuccessButton}" 
+                                                        Command="{Binding DataContext.StartPrinterCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}" Margin="0,0,4,0"
+                                                        Visibility="{Binding IsMonitoring, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}"/>
+                                                <Button Content="停止" Style="{StaticResource DangerButton}"
+                                                        Command="{Binding DataContext.StopPrinterCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}" Margin="0,0,4,0"
+                                                        Visibility="{Binding IsMonitoring, Converter={StaticResource BoolToVis}}"/>
                                                 <Button Content="配置" Style="{StaticResource SecondaryButton}" 
                                                         Command="{Binding DataContext.EditPrinterCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                         CommandParameter="{Binding}" Margin="0,0,4,0"/>

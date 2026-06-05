@@ -3,28 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="编辑水印" Height="500" Width="500"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Icon="pack://application:,,,/Assets/app.ico"
         Background="{StaticResource BgBrush}">
-
-    <Window.Resources>
-        <Style x:Key="FormLabel" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-            <Setter Property="Margin" Value="0,8,0,2"/>
-        </Style>
-        <Style x:Key="FormInput" TargetType="TextBox">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-        <Style x:Key="FormCombo" TargetType="ComboBox">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-        </Style>
-    </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -134,11 +114,14 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
-            <Button Content="取消" Style="{StaticResource SecondaryButton}" 
-                    Click="OnCancel" Margin="0,0,8,0"/>
-            <Button Content="保存" Style="{StaticResource PrimaryButton}" 
-                    Click="OnSave"/>
-        </StackPanel>
+        <Border Grid.Row="1" Background="{StaticResource CardBrush}" Padding="16,10"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="取消" Style="{StaticResource SecondaryButton}" 
+                        Click="OnCancel" Margin="0,0,8,0"/>
+                <Button Content="保存" Style="{StaticResource PrimaryButton}" 
+                        Click="OnSave"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

@@ -1,0 +1,7 @@
+;!@Install@!UTF-8!
+Title="PdfAutoPrint Pro v1.1.1 Setup"
+BeginPrompt="This will install PdfAutoPrint Pro v1.1.1 on your computer.%n%nAdministrator privileges required. Continue?"
+ExecuteFile="install.bat"
+GUIMode="2"
+GUIIcon="app.ico"
+;!@InstallEnd@!

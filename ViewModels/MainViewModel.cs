@@ -51,6 +51,8 @@ public class MainViewModel : INotifyPropertyChanged
         // 初始化命令
         StartAllCommand = new RelayCommand(async _ => await StartAllAsync());
         StopAllCommand = new RelayCommand(_ => StopAll());
+        StartPrinterCommand = new RelayCommand(async p => await StartPrinterAsync(p as PrinterViewModel));
+        StopPrinterCommand = new RelayCommand(p => StopPrinter(p as PrinterViewModel));
         CreatePrinterCommand = new RelayCommand(async _ => await CreatePrinterAsync());
         DeletePrinterCommand = new RelayCommand(async p => await DeletePrinterAsync(p as PrinterViewModel));
         EditPrinterCommand = new RelayCommand(p => EditPrinter(p as PrinterViewModel));
@@ -100,6 +102,8 @@ public class MainViewModel : INotifyPropertyChanged
 
     public ICommand StartAllCommand { get; }
     public ICommand StopAllCommand { get; }
+    public ICommand StartPrinterCommand { get; }
+    public ICommand StopPrinterCommand { get; }
     public ICommand CreatePrinterCommand { get; }
     public ICommand DeletePrinterCommand { get; }
     public ICommand EditPrinterCommand { get; }
@@ -142,7 +146,7 @@ public class MainViewModel : INotifyPropertyChanged
 
         var monitor = new SpoolMonitor(
             pvm.Profile, _gsService, _watermarkEngine,
-            _fileNameResolver, conflictResolver, _logService, _historyService);
+            _fileNameResolver, conflictResolver, _logService, _historyService, _printerManager);
 
         monitor.OnJobCompleted += record =>
         {
@@ -211,6 +215,29 @@ public class MainViewModel : INotifyPropertyChanged
         IsRunning = false;
         StatusText = "已停止";
         _logService.Info("所有监控已停止");
+    }
+
+    private async Task StartPrinterAsync(PrinterViewModel? pvm)
+    {
+        if (pvm == null || pvm.IsMonitoring) return;
+        await StartMonitor(pvm);
+        _logService.Info($"打印机监控已启动: {pvm.Name}");
+    }
+
+    private void StopPrinter(PrinterViewModel? pvm)
+    {
+        if (pvm == null || !pvm.IsMonitoring) return;
+
+        if (_monitors.TryGetValue(pvm.Profile.Id, out var pair))
+        {
+            pair.Cts.Cancel();
+            pair.Monitor.Stop();
+            _monitors.Remove(pvm.Profile.Id);
+        }
+
+        pvm.IsMonitoring = false;
+        pvm.Status = "已停止";
+        _logService.Info($"打印机监控已停止: {pvm.Name}");
     }
 
     private async Task CreatePrinterAsync()

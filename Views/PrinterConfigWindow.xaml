@@ -4,43 +4,12 @@
         xmlns:cv="clr-namespace:PdfAutoPrint.Pro.Converters"
         Title="打印机配置" Height="580" Width="700"
         WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip"
+        Icon="pack://application:,,,/Assets/app.ico"
         Background="{StaticResource BgBrush}">
 
     <Window.Resources>
         <cv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <cv:InverseBoolConverter x:Key="InverseBool"/>
-
-        <Style x:Key="FormLabel" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-            <Setter Property="Margin" Value="0,8,0,2"/>
-        </Style>
-
-        <Style x:Key="FormInput" TargetType="TextBox">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <Style x:Key="FormCheck" TargetType="CheckBox">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Margin" Value="0,4,0,4"/>
-        </Style>
-
-        <Style x:Key="FormCombo" TargetType="ComboBox">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-        </Style>
-
-        <Style x:Key="SectionTitle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="500"/>
-            <Setter Property="Margin" Value="0,16,0,8"/>
-        </Style>
     </Window.Resources>
 
     <Grid>
@@ -49,7 +18,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0" BorderThickness="0" Background="Transparent" Margin="20,12,20,0">
+        <TabControl Grid.Row="0" BorderThickness="0" Background="Transparent" Margin="20,12,20,0"
+                    ItemContainerStyle="{StaticResource AppTabItem}">
             <!-- 输出设置 -->
             <TabItem Header="输出">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">

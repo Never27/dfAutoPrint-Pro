@@ -35,10 +35,16 @@ public class StatusToColorConverter : IValueConverter
     {
         return value?.ToString() switch
         {
-            "Success" => "#3B6D11",
-            "Failed" => "#A32D2D",
-            "Skipped" => "#854F0B",
-            _ => "#666666"
+            // 中文状态
+            "正常" or "监控中" => "#4CAF50",   // 绿色 — 运行中
+            "失败" or "错误" => "#EF4444",   // 红色 — 故障
+            "已停止" or "就绪" => "#9CA3AF",  // 灰色 — 停止/待命
+
+            // 英文状态（日志/历史记录用）
+            "Success" => "#4CAF50",
+            "Failed" => "#EF4444",
+            "Skipped" => "#9CA3AF",
+            _ => "#9CA3AF"
         };
     }
 
