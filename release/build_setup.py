@@ -1,5 +1,5 @@
-# PdfAutoPrint Pro v1.1.1 - Self-extracting installer builder
-# Output: PdfAutoPrint_Pro_Setup_v1.1.1.bat (double-click to install)
+# PdfAutoPrint Pro v1.1.2 - Self-extracting installer builder
+# Output: PdfAutoPrint_Pro_Setup_v1.1.2.bat (double-click to install)
 # Format: ASCII batch header + __ZIP_DATA__ marker + binary ZIP payload
 
 import os, shutil, zipfile
@@ -8,7 +8,7 @@ RELEASE_DIR = r"C:\Users\Administrator\WorkBuddy\2026-06-05-09-13-35\PdfAutoPrin
 APP_DIR      = os.path.join(RELEASE_DIR, "app")
 GS_FILE      = os.path.join(RELEASE_DIR, "gs10040w64.exe")
 DOTNET_FILE  = os.path.join(RELEASE_DIR, "windowsdesktop-runtime-8.0.27-win-x64.exe")
-SETUP_BAT    = os.path.join(RELEASE_DIR, "PdfAutoPrint_Pro_Setup_v1.1.1.bat")
+SETUP_BAT    = os.path.join(RELEASE_DIR, "PdfAutoPrint_Pro_Setup_v1.1.2.bat")
 
 # ── Step 1: Build ZIP payload ──────────────────────────────────────
 zip_path = os.path.join(RELEASE_DIR, "_setup_payload.zip")
@@ -51,11 +51,11 @@ with open(zip_path, "rb") as f:
 
 bat = r'''@echo off
 setlocal enabledelayedexpansion
-title PdfAutoPrint Pro v1.1.1 Setup
+title PdfAutoPrint Pro v1.1.2 Setup
 
 echo.
 echo   ============================================
-echo     PdfAutoPrint Pro v1.1.1 - Setup
+echo     PdfAutoPrint Pro v1.1.2 - Setup
 echo     .NET 8 + GhostScript + Virtual Printer
 echo   ============================================
 echo.

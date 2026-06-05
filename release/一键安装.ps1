@@ -8,7 +8,7 @@ $ErrorActionPreference = "Continue"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host "  PdfAutoPrint Pro v1.0.0 - 一键安装" -ForegroundColor Cyan
+Write-Host "  PdfAutoPrint Pro v1.1.2 - 一键安装" -ForegroundColor Cyan
 Write-Host "  Win7 / Win10 / Win11 通用" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
@@ -60,7 +60,7 @@ if (-not $gsFound) {
     $gsInstaller = Join-Path $ScriptDir "gs10040w64.exe"
     if (Test-Path $gsInstaller) {
         Write-Host "  正在安装 GhostScript 10.04.0..." -ForegroundColor Yellow
-        Start-Process -FilePath $gsInstaller -ArgumentList "/S" -Wait
+        Start-Process -FilePath $gsInstaller -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
         if (Test-Path "C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe") {
             Write-Host "  OK: GhostScript 安装完成" -ForegroundColor Green
         } else {

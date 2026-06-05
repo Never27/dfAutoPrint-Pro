@@ -105,7 +105,6 @@ public partial class PrinterConfigWindow : Window
         // 输出
         _profile.Output.AutoSave = chkAutoSave.IsChecked ?? true;
         _profile.Output.OutputRoot = txtOutputRoot.Text;
-        _profile.Output.WatchFolder = txtWatchFolder.Text;
         _profile.Output.DeleteSourceAfterConvert = chkDeleteSource.IsChecked ?? true;
 
         // 文件名
@@ -148,9 +147,13 @@ public partial class PrinterConfigWindow : Window
             }
         }
 
-        // 更新端口名
+        // 更新端口名（必须在 WatchFolder 之前，因为 WatchFolder 从 PortName 推导）
         var safeName = _profile.PrinterName.Replace(" ", "_");
         _profile.PortName = $@"C:\PDFOutput\spool\{safeName}.prn";
+
+        // WatchFolder 自动从 PortName 推导，用户不可修改（防止误改为非spool路径导致监控失效）
+        _profile.Output.WatchFolder = Path.GetDirectoryName(_profile.PortName)
+                                       ?? @"C:\PDFOutput\spool";
     }
 
     private void RefreshWatermarkList()

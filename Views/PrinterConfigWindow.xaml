@@ -29,8 +29,8 @@
                                   Content="自动保存（关闭则每次弹框选择位置）"/>
                         <TextBlock Style="{StaticResource FormLabel}" Text="输出根目录（支持 {yyyy-MM-dd} 等占位符）"/>
                         <TextBox x:Name="txtOutputRoot" Style="{StaticResource FormInput}"/>
-                        <TextBlock Style="{StaticResource FormLabel}" Text="监控目录（spool）"/>
-                        <TextBox x:Name="txtWatchFolder" Style="{StaticResource FormInput}"/>
+                        <TextBlock Style="{StaticResource FormLabel}" Text="监控目录（自动从端口路径推导，不可手动修改）" Foreground="{StaticResource TextSecondaryBrush}"/>
+                        <TextBox x:Name="txtWatchFolder" Style="{StaticResource FormInput}" IsReadOnly="True" Background="#F0F0F3"/>
                         <CheckBox x:Name="chkDeleteSource" Style="{StaticResource FormCheck}" 
                                   Content="转换后删除源文件" Margin="0,8,0,0"/>
 

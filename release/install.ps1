@@ -15,7 +15,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $AppDir = Join-Path $ScriptDir "app"
 $GhostScriptUrl = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10040/gs10040w64.exe"
 $GhostScriptInstaller = Join-Path $env:TEMP "gs10040w64.exe"
-$Version = "1.0.0"
+$Version = "1.1.2"
 
 # Colors
 function Write-Info { Write-Host "[INFO] $args" -ForegroundColor Cyan }
@@ -92,7 +92,7 @@ if (-not $gsFound) {
         Invoke-WebRequest -Uri $GhostScriptUrl -OutFile $GhostScriptInstaller -UseBasicParsing
         
         Write-Info "Installing GhostScript (silent)..."
-        Start-Process -FilePath $GhostScriptInstaller -ArgumentList "/S" -Wait -NoNewWindow
+        Start-Process -FilePath $GhostScriptInstaller -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait -NoNewWindow
         
         Remove-Item $GhostScriptInstaller -Force -ErrorAction SilentlyContinue
         

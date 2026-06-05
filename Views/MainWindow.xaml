@@ -104,6 +104,9 @@
                                                         CommandParameter="{Binding}" Margin="0,0,4,0"/>
                                                 <Button Content="打开目录" Style="{StaticResource SecondaryButton}"
                                                         Command="{Binding DataContext.OpenOutputFolderCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}" Margin="0,0,4,0"/>
+                                                <Button Content="删除" Style="{StaticResource DangerButton}"
+                                                        Command="{Binding DataContext.DeletePrinterCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                         CommandParameter="{Binding}"/>
                                             </StackPanel>
                                         </Grid>

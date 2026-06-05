@@ -292,6 +292,17 @@ public class MainViewModel : INotifyPropertyChanged
             _monitors.Remove(pvm.Profile.Id);
         }
 
+        // 卸载 Windows 系统打印机
+        try
+        {
+            await _printerManager.DeletePrinterAsync(pvm.Name);
+            _logService.Info($"已从系统卸载打印机: {pvm.Name}");
+        }
+        catch (Exception ex)
+        {
+            _logService.Warn($"卸载系统打印机失败（配置已删除）: {ex.Message}");
+        }
+
         // 从配置删除
         _configService.RemovePrinter(pvm.Profile.Id);
         Printers.Remove(pvm);

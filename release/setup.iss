@@ -3,7 +3,7 @@
 ; 自动安装: .NET 8 Runtime + GhostScript + 打印机驱动 + 虚拟打印机 + 管理软件
 
 #define MyAppName "PdfAutoPrint Pro"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.1.2"
 #define MyAppPublisher "和学斌"
 #define MyAppURL "https://github.com/Never27/PdfAutoPrint-Pro"
 #define MyAppExeName "PdfAutoPrint.Pro.exe"
@@ -23,7 +23,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=..\LICENSE
 OutputDir=.
-OutputBaseFilename=PdfAutoPrint_Pro_Setup_v1.0.0
+OutputBaseFilename=PdfAutoPrint_Pro_Setup_v1.1.2
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern
@@ -69,7 +69,7 @@ Filename: "{tmp}\{#DotNetRuntime}"; Parameters: "/install /quiet /norestart"; \
     Flags: runhidden waituntilterminated
 
 ; Step 2: 安装 GhostScript
-Filename: "{tmp}\{#GhostScript}"; Parameters: "/S"; \
+Filename: "{tmp}\{#GhostScript}"; Parameters: "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART"; \
     StatusMsg: "正在安装 GhostScript PDF 引擎..."; \
     Check: not IsGhostScriptInstalled; \
     Flags: runhidden waituntilterminated

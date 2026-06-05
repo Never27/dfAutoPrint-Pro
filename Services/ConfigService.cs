@@ -65,7 +65,7 @@ public class ConfigService
             PortName = $@"C:\PDFOutput\spool\{name.Replace(" ", "_")}.prn",
             Output = new OutputConfig
             {
-                WatchFolder = $@"C:\PDFOutput\spool\{name.Replace(" ", "_")}"
+                WatchFolder = @"C:\PDFOutput\spool"
             }
         };
         Config.Printers.Add(profile);
