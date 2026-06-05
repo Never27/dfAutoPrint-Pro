@@ -78,7 +78,7 @@ def add_cover_page():
     # Version
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run('版本 v1.1.1')
+    run = p.add_run('版本 v1.1.2')
     run.font.size = Pt(14)
     run.font.color.rgb = ACCENT_COLOR
     run.font.name = 'Microsoft YaHei'
@@ -713,7 +713,7 @@ add_styled_table(
 add_section_header('6.2 一键安装步骤', 2)
 add_paragraph_text('方法一：使用 .bat 安装包（推荐）', bold=True)
 for step in [
-    '下载 PdfAutoPrint_Pro_Setup_v1.1.1.bat（约 118MB，包含所有依赖）',
+    '下载 PdfAutoPrint_Pro_Setup_v1.1.2.bat（约 118MB，包含所有依赖）',
     '右键 .bat 文件 → "以管理员身份运行"',
     '等待安装完成（自动处理 .NET 8 Runtime、GhostScript、虚拟打印机驱动、快捷方式等）',
     '安装完成后，桌面和开始菜单会出现 PdfAutoPrint Pro 图标',
@@ -722,7 +722,7 @@ for step in [
 
 add_paragraph_text('方法二：使用 .exe SFX 安装包', bold=True)
 for step in [
-    '下载 PdfAutoPrint_Pro_Setup_v1.1.1.exe（约 562KB，轻量版）',
+    '下载 PdfAutoPrint_Pro_Setup_v1.1.2.exe（约 344KB，轻量版）',
     '双击运行，按提示操作',
     '注意：此版本需要系统已安装 .NET 8 Desktop Runtime 和 GhostScript 10.x',
 ]:
@@ -829,6 +829,7 @@ add_section_header('8.1 版本历史', 2)
 add_styled_table(
     ['版本', '日期', '更新内容'],
     [
+        ['v1.1.2', '2026-06-05', 'GhostScript 静默安装参数修复（/S → /VERYSILENT）；WatchFolder 监听目录修复（自动推导 + UI 只读保护）；UI 删除打印机按钮（DangerButton + 系统级卸载）'],
         ['v1.1.1', '2026-06-05', '应用图标（多分辨率 .ico 16~256px）；托盘与窗口图标统一；安装包 .bat 自解压 + .exe SFX 双格式；打印文件名修复（WMI Win32_PrintJob）；GS 内容裁切修复；单台打印机独立启停；状态指示灯中文映射'],
         ['v1.1.0', '2026-06-04', '系统托盘最小化运行；开机自启功能；打印完成/失败气泡通知；完整安装包（含 GhostScript）；WinForms/WPF 类型冲突修复'],
         ['v1.0.0', '2026-06', '初始版本；12 项核心功能完整实现；WPF 桌面界面；一键安装脚本'],
@@ -976,7 +977,7 @@ add_styled_table(
 )
 
 # ── Save ──
-output_path = r'C:\Users\Administrator\WorkBuddy\2026-06-05-09-13-35\PdfAutoPrint.Pro\release\PdfAutoPrint_Pro_详细文档_v1.1.1.docx'
+output_path = r'C:\Users\Administrator\WorkBuddy\2026-06-05-09-13-35\PdfAutoPrint.Pro\release\PdfAutoPrint_Pro_详细文档_v1.1.2.docx'
 doc.save(output_path)
 print(f'Document saved to: {output_path}')
 print(f'Size: {os.path.getsize(output_path) // 1024} KB')
