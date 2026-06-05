@@ -214,7 +214,7 @@ PdfAutoPrint.Pro/
 ## 下载
 
 - **完整安装包 v1.1.0**（含 .NET 8 + GhostScript）：`release/PdfAutoPrint_Pro_Setup_v1.1.0.exe`'
-- **GitHub 仓库**：https://github.com/Never27/PdfAutoPrint-Pro'
+- **GitHub 仓库**：https://github.com/Never27/dfAutoPrint-Pro'
 
 ---
 
