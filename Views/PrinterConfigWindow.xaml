@@ -1,0 +1,206 @@
+<Window x:Class="PdfAutoPrint.Pro.Views.PrinterConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cv="clr-namespace:PdfAutoPrint.Pro.Converters"
+        Title="打印机配置" Height="580" Width="700"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip"
+        Background="{StaticResource BgBrush}">
+
+    <Window.Resources>
+        <cv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+        <cv:InverseBoolConverter x:Key="InverseBool"/>
+
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Margin" Value="0,8,0,2"/>
+        </Style>
+
+        <Style x:Key="FormInput" TargetType="TextBox">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="FormCheck" TargetType="CheckBox">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,4,0,4"/>
+        </Style>
+
+        <Style x:Key="FormCombo" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="500"/>
+            <Setter Property="Margin" Value="0,16,0,8"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" BorderThickness="0" Background="Transparent" Margin="20,12,20,0">
+            <!-- 输出设置 -->
+            <TabItem Header="输出">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="8">
+                        <TextBlock Style="{StaticResource SectionTitle}" Text="保存行为"/>
+                        <CheckBox x:Name="chkAutoSave" Style="{StaticResource FormCheck}" 
+                                  Content="自动保存（关闭则每次弹框选择位置）"/>
+                        <TextBlock Style="{StaticResource FormLabel}" Text="输出根目录（支持 {yyyy-MM-dd} 等占位符）"/>
+                        <TextBox x:Name="txtOutputRoot" Style="{StaticResource FormInput}"/>
+                        <TextBlock Style="{StaticResource FormLabel}" Text="监控目录（spool）"/>
+                        <TextBox x:Name="txtWatchFolder" Style="{StaticResource FormInput}"/>
+                        <CheckBox x:Name="chkDeleteSource" Style="{StaticResource FormCheck}" 
+                                  Content="转换后删除源文件" Margin="0,8,0,0"/>
+
+                        <TextBlock Style="{StaticResource SectionTitle}" Text="文件名模板"/>
+                        <TextBlock FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" 
+                                   TextWrapping="Wrap" Margin="0,0,0,4">
+                            支持占位符: &lt;PrintJobName&gt; &lt;PrintJobAuthor&gt; &lt;DateTime:yyyyMMdd_HHmmss&gt; &lt;Counter&gt;
+                        </TextBlock>
+                        <TextBox x:Name="txtFileNamePattern" Style="{StaticResource FormInput}"/>
+                        <TextBlock Style="{StaticResource FormLabel}" Text="默认前缀（无法获取作业名时使用）"/>
+                        <TextBox x:Name="txtDefaultPrefix" Style="{StaticResource FormInput}"/>
+
+                        <TextBlock Style="{StaticResource SectionTitle}" Text="冲突处理"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <RadioButton x:Name="rbOverwrite" Content="覆盖" GroupName="Conflict" 
+                                         FontSize="13" Margin="0,0,16,0"/>
+                            <RadioButton x:Name="rbIncrement" Content="递增编号" GroupName="Conflict" 
+                                         FontSize="13" Margin="0,0,16,0"/>
+                            <RadioButton x:Name="rbBackup" Content="备份原文件" GroupName="Conflict" 
+                                         FontSize="13"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" x:Name="pnlIncrementSep" Margin="0,4,0,0">
+                            <TextBlock Text="分隔符:" FontSize="12" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtIncrementSep" Width="40" Style="{StaticResource FormInput}" Margin="4,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" x:Name="pnlBackupSuffix" Margin="0,4,0,0">
+                            <TextBlock Text="备份后缀:" FontSize="12" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtBackupSuffix" Width="200" Style="{StaticResource FormInput}" Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- 质量设置 -->
+            <TabItem Header="质量">
+                <StackPanel Margin="12">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="色彩模式"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="rbColor" Content="彩色" GroupName="Color" FontSize="13" Margin="0,0,16,0"/>
+                        <RadioButton x:Name="rbGray" Content="黑白/灰度" GroupName="Color" FontSize="13"/>
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="输出模式"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="rbOriginal" Content="保持原文格式（矢量文字可选中）" 
+                                     GroupName="Output" FontSize="13" Margin="0,0,16,0"/>
+                        <RadioButton x:Name="rbImage" Content="图片模式（内容不变，文字不可编辑）" 
+                                     GroupName="Output" FontSize="13"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" x:Name="pnlImageDpi" Margin="0,8,0,0">
+                        <TextBlock Text="DPI:" FontSize="12" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtImageDpi" Width="60" Style="{StaticResource FormInput}" 
+                                 Text="300" Margin="4,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <!-- 水印设置 -->
+            <TabItem Header="水印">
+                <StackPanel Margin="12">
+                    <CheckBox x:Name="chkWatermarkEnabled" Style="{StaticResource FormCheck}" 
+                              Content="启用水印/印章功能"/>
+
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="水印列表"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
+                        支持文字水印和图片印章（印章、签字、Logo透明图片），可添加多个水印叠加。
+                        位置支持9个锚点 + 绝对坐标偏移。
+                    </TextBlock>
+
+                    <!-- Watermark items will be managed in code-behind -->
+                    <ListBox x:Name="lstWatermarks" Height="200" Margin="0,8,0,8"
+                             Background="{StaticResource CardBrush}" BorderBrush="{StaticResource BorderBrush}"
+                             BorderThickness="1">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="4">
+                                    <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnAddTextWatermark" Content="+ 文字水印" 
+                                Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                        <Button x:Name="btnAddImageWatermark" Content="+ 图片印章" 
+                                Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                        <Button x:Name="btnEditWatermark" Content="编辑" 
+                                Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                        <Button x:Name="btnRemoveWatermark" Content="删除" 
+                                Style="{StaticResource SecondaryButton}"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <!-- 通知设置 -->
+            <TabItem Header="通知">
+                <StackPanel Margin="12">
+                    <CheckBox x:Name="chkSystemTray" Style="{StaticResource FormCheck}" 
+                              Content="启用系统托盘图标"/>
+                    <CheckBox x:Name="chkNotifySuccess" Style="{StaticResource FormCheck}" 
+                              Content="转换成功时弹出气泡通知"/>
+                    <CheckBox x:Name="chkNotifyFailure" Style="{StaticResource FormCheck}" 
+                              Content="转换失败时弹出气泡通知"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- 服务设置 -->
+            <TabItem Header="服务">
+                <StackPanel Margin="12">
+                    <TextBlock Style="{StaticResource FormLabel}" Text="打印机名称"/>
+                    <TextBox x:Name="txtPrinterName" Style="{StaticResource FormInput}"/>
+
+                    <TextBlock Style="{StaticResource FormLabel}" Text="GhostScript路径（留空自动查找）"/>
+                    <TextBox x:Name="txtGsPath" Style="{StaticResource FormInput}"/>
+
+                    <CheckBox x:Name="chkSkipOnFailure" Style="{StaticResource FormCheck}" 
+                              Content="操作失败时跳过（不中断其他任务）" Margin="0,12,0,0"/>
+                    <CheckBox x:Name="chkEnabled" Style="{StaticResource FormCheck}" 
+                              Content="启用此打印机（取消勾选则忽略该打印机）"/>
+
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="日志"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                        <TextBlock Text="日志保留天数 (0=永久):" FontSize="12" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtLogRetention" Width="50" Style="{StaticResource FormInput}" 
+                                 Text="30" Margin="4,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <!-- 底部按钮 -->
+        <Border Grid.Row="1" Background="{StaticResource CardBrush}" Padding="16,10"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="取消" Style="{StaticResource SecondaryButton}" 
+                        Click="OnCancel" Margin="0,0,8,0"/>
+                <Button Content="保存配置" Style="{StaticResource PrimaryButton}" 
+                        Click="OnSave"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
