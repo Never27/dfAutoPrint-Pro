@@ -55,13 +55,13 @@ if (-not $dotnetOk) {
 # ============================================
 Write-Host "[3/6] 安装 GhostScript PDF 引擎..." -ForegroundColor Yellow
 
-$gsFound = Test-Path "${env:ProgramFiles}\gs\gs10.04.0\bin\gswin64c.exe"
+$gsFound = Test-Path "C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe"
 if (-not $gsFound) {
     $gsInstaller = Join-Path $ScriptDir "gs10040w64.exe"
     if (Test-Path $gsInstaller) {
         Write-Host "  正在安装 GhostScript 10.04.0..." -ForegroundColor Yellow
         Start-Process -FilePath $gsInstaller -ArgumentList "/S" -Wait
-        if (Test-Path "${env:ProgramFiles}\gs\gs10.04.0\bin\gswin64c.exe") {
+        if (Test-Path "C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe") {
             Write-Host "  OK: GhostScript 安装完成" -ForegroundColor Green
         } else {
             Write-Host "  WARN: GhostScript 安装可能失败，手动安装: https://ghostscript.com" -ForegroundColor Red
@@ -120,7 +120,7 @@ try {
 # ============================================
 Write-Host "[5/6] 安装管理软件..." -ForegroundColor Yellow
 
-$installPath = "${env:ProgramFiles}\PdfAutoPrint Pro"
+$installPath = "C:\Program Files\PdfAutoPrint Pro"
 New-Item -ItemType Directory -Path $installPath -Force | Out-Null
 
 # 复制 app 文件
