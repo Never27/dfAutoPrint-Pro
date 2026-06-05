@@ -12,14 +12,18 @@ obj/
 ## Build
 [Bb]uild/
 publish/
-*.zip
+*.zip/
+*.exe/
+*.msi/
+*.msm/
+*.cab/
 
 ## NuGet
-*.nupkg
+*.nupkg/
 **/[Pp]ackages/*
 !**/[Pp]ackages/build/
 *.nuget.props
-*.nuget.targets
+*.nuget.targets/
 
 ## .NET Core
 project.lock.json
@@ -28,14 +32,23 @@ artifacts/
 
 ## Rider
 .idea/
-*.sln.iml
+*.sln.iml/
 
 ## VS Code
 .vscode/
 
 ## Windows
 Thumbs.db
-Desktop.ini
+Desktop.ini/
 
 ## OS
-.DS_Store
+.DS_Store/
+
+## Release binaries (upload via GitHub Releases instead)
+release/*.exe
+release/*.msi
+release/*.zip/
+release/*.cab/
+release/app/
+release/_setup_payload.zip
+gs_page.html
